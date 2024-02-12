@@ -8,7 +8,7 @@ const reviewSchema = new Schema({
   user_id: String
 });
 
-const doctorSchema = new Schema({
+const patientSchema = new Schema({
   name: { type: String, required: true },
   age: { type: Number, required: true },
   address: { type: String, required: true },
@@ -18,6 +18,6 @@ const doctorSchema = new Schema({
   confirmPassword: { type: String, required: true },
 });
 
-const RDoctor = new mongoose.model('patient', doctorSchema);
+const RPatient = new mongoose.model('patient', patientSchema);
 
-module.exports = RDoctor;
+module.exports = RPatient;
