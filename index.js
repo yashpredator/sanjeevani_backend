@@ -1,10 +1,11 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const path = require('path');
+const userlogin=require("./src/routes/user.js");
 const {connectToDb, getDb} = require('./src/configuration/config')
 const port = process.env.PORT || 3000;
 const RDoctor = require('../sanjeevani_backend/src/models/registerdoctor')
-const RPatient = require('../sanjeevani_backend/src/models/registerpatient')
+const RPatient = require('./src/models/user.js')
 const app = express();
 
 //db connection
@@ -56,9 +57,3 @@ app.post('/registerd',async (req,res)=>{
         res.status(400).send(error);
     }
 })
-
-
-//application routes
-// app.route('/home',
-    
-// )
