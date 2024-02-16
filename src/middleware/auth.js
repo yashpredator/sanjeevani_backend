@@ -7,7 +7,7 @@ const protect = asyncHandler(async(req,res,next)=>{
     let token;
     try {
         token = req.cookies.jwt;
-        const decoded = jwt.verify(token,process.env.JWT_SECRET);
+        const decoded = jwt.verify(token,'abc123');
         req.user = await User.findById(decoded.userId).select('-password');
         next();
     }catch(err){

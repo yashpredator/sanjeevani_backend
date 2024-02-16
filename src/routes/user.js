@@ -13,6 +13,7 @@ const {
  } =require( '../controllers/user.js');
 // import { protect } from '../middleware/authMiddleare.js';
 const protect=require("../middleware/auth.js")
+<<<<<<< Updated upstream
 router.post('/auth',(req,res)=>{
     res.send('/auth')
 });
@@ -22,6 +23,12 @@ router.post('/',(req,res)=>{
 router.post('/logout',(req,res)=>{
     res.send('/logout')
 });
+=======
+
+router.post('/register',registerUser);
+router.post('/login', authUser);
+router.post('/logout', logoutUser);
+>>>>>>> Stashed changes
 router.route('/profile')
     .get(protect,(req,res)=>{
         res.send('/getUserProfile')
