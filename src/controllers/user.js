@@ -30,16 +30,12 @@ const authUser = asyncHandler(async (req,res)=>{
    }
 });
 
-const registerUser = asyncHandler(async(req,res)=>{
+const signup=asyncHandler(async(req,res)=>{
     try{
-        const {name,age,username,address,phone,email,password,confirmPassword} = req.body;
+        const {username,email,password,confirmPassword} = req.body;
         await User.findOne({email});
         const user = await User.create({
-            name,
-            age,
             username,
-            address,
-            phone,
             email,
             password,
             confirmPassword
@@ -47,7 +43,7 @@ const registerUser = asyncHandler(async(req,res)=>{
         generateToken(res, user._id);
         res.status(201).json({
             _id:user._id,
-            name:user.name,
+            username:user.username,
             email:user.email,
         });
     }catch(err){
@@ -74,7 +70,7 @@ const getUserProfile = asyncHandler(async(req,res)=>{
         if (user) {
             res.json({
               _id: user._id,
-              name: user.name,
+              username: user.username,
               email: user.email,
             });
         }
@@ -91,7 +87,7 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
     try{
         const user = await User.findOne({email});
         if (user) {
-            user.name = req.body.name || user.name;
+            user.username = req.body.username || user.username;
             user.email = req.body.email || user.email;
         
             if (req.body.password) {
@@ -102,7 +98,7 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
         
             res.json({
               _id: updatedUser._id,
-              name: updatedUser.name,
+              username: updatedUser.username,
               email: updatedUser.email,
             });
         } 
@@ -111,4 +107,4 @@ const updateUserProfile = asyncHandler(async(req,res)=>{
     }
 })
 
-module.exports={}
+module.exports={authUser,signup,logoutUser,getUserProfile,updateUserProfile}
