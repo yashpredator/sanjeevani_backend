@@ -6,6 +6,7 @@ const user=require("../controllers/user.js");
 const router = express.Router();
 const { 
     authUser,
+    signup,
     registerUser,
     logoutUser,
     getUserProfile,
@@ -13,21 +14,14 @@ const {
  } =require( '../controllers/user.js');
 // import { protect } from '../middleware/authMiddleare.js';
 const protect=require("../middleware/auth.js")
-router.post('/auth',(req,res)=>{
-    res.send('/auth')
-});
-router.post('/',(req,res)=>{
-    res.send('/')
-});
-router.post('/logout',(req,res)=>{
-    res.send('/logout')
-});
+
+router.post('/signup',signup);
+router.post('/login', authUser);
+// router.post('/register',registerUser);
+router.post('/logout', logoutUser);
+
 router.route('/profile')
-    .get(protect,(req,res)=>{
-        res.send('/getUserProfile')
-    })
-    .put(protect,(req,res)=>{
-        res.send('/updateUserProfile')
-    });
+    .get(protect,getUserProfile)
+    .put(protect,updateUserProfile);
 
 module.exports=router;

@@ -8,7 +8,8 @@ const RDoctor = require('../sanjeevani_backend/src/models/registerdoctor')
 const RPatient = require('./src/models/user.js')
 const app = express();
 const cookieParser=require("cookie-parser")
-const user=require("../sanjeevani_backend/src/routes/user.js")
+const userRouter=require("../sanjeevani_backend/src/routes/user.js");
+const regRouter=require("../sanjeevani_backend/src/routes/userReg.js");
 //db connection
 const {notFound,errorHandler}=require("../sanjeevani_backend/src/middleware/apierror.js")
 let db
@@ -20,13 +21,15 @@ connectToDb((err)=>{
         // db = getDb()
     }
 })
+
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/api/users',user);
-
+app.use(userRouter);
+app.use(regRouter);
 app.use(notFound);
 app.use(errorHandler);
+
 app.listen(port, ()=>{
     console.log('Listening to port number: '+port);
 })
