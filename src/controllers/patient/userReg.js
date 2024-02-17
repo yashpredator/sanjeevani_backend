@@ -1,5 +1,5 @@
 const asyncHandler=require("express-async-handler")
-const User=require("../models/userReg.js")
+const User=require("../../models/patient/userReg.js")
 const bcrypt=require("bcrypt")
 
 const registerUser = asyncHandler(async(req,res)=>{

@@ -14,7 +14,6 @@ const patientSchema = new Schema({
   username:{type: String, required: true , unique:true},
   email: { type: String, required: true, unique: true, validate(value){if(!validator.isEmail(value)){throw new Error("Invalid Email address")}} },
   password: { type: String, required: true },
-  confirmPassword: { type: String, required: true },
 });
 
 patientSchema.pre('save',async function(next){

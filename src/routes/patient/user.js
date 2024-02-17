@@ -1,6 +1,6 @@
 const express = require("express");
 // const router = express.Router();
-const user=require("../controllers/user.js");
+const user=require("../../controllers/patient/user.js");
 // import express from 'express';
 
 const router = express.Router();
@@ -11,9 +11,9 @@ const {
     logoutUser,
     getUserProfile,
     updateUserProfile
- } =require( '../controllers/user.js');
+ } =require( '../../controllers/patient/user.js');
 // import { protect } from '../middleware/authMiddleare.js';
-const protect=require("../middleware/auth.js")
+const protect=require("../../middleware/auth.js")
 
 router.post('/signup',signup);
 router.post('/login', authUser);

@@ -2,15 +2,15 @@
 // import User from '../models/user.js';
 // import generateToken from '../utils/generateToken.js';
 const asyncHandler=require("express-async-handler")
-const User=require("../models/user.js")
-const generateToken=require("../utils/generateToken.js")
+const User=require("../../models/patient/user.js")
+const generateToken=require("../../utils/generateToken.js")
 const bcrypt=require("bcrypt")
 
 
 const authUser = asyncHandler(async (req,res)=>{
    try{
-    const {email,password} = req.body;
-    const user = await User.findOne({email});
+    const {username,password} = req.body;
+    const user = await User.findOne({username});
     if(!user) return res.status(404).json({"mssg":"Not found"})
     
     await user.matchPassword(password);
@@ -32,13 +32,12 @@ const authUser = asyncHandler(async (req,res)=>{
 
 const signup=asyncHandler(async(req,res)=>{
     try{
-        const {username,email,password,confirmPassword} = req.body;
+        const {username,email,password} = req.body;
         await User.findOne({email});
         const user = await User.create({
             username,
             email,
-            password,
-            confirmPassword
+            password
         });
         generateToken(res, user._id);
         res.status(201).json({

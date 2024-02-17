@@ -1,5 +1,5 @@
 const jwt=require("jsonwebtoken");
-const User=require("../models/patient/user");
+const User=require("../models/doctor/admin");
 const bcrypt=require("bcrypt");
 const asyncHandler=require("express-async-handler")
 

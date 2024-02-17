@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcryptjs')
 const Schema = mongoose.Schema;
 
 const reviewSchema = new Schema({
@@ -10,16 +11,28 @@ const reviewSchema = new Schema({
 
 const doctorSchema = new Schema({
   name: { type: String, required: true },
-  age: { type: Number, required: true },
+  username:{type:String, required:true, unique:true},
+  experience: { type: Number, required: true },
   workplace: { type: String, required: true },
-  phone: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true, validate(value){if(!validator.isEmail(value)){throw new Error("Invalid Email address")}} },
   password: { type: String, required: true },
   confirmPassword: { type: String, required: true },
-  qualification: { type: String, required: true },
   specialization: { type: String, required: true },
   reviews: [reviewSchema]
 });
+
+doctorSchema.pre('save',async function(next){
+  if(!this.isModified('password')){
+    next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password,salt);
+
+  
+});
+doctorSchema.methods.matchPassword = async function(enteredPassword){
+  return await bcrypt.compare(enteredPassword,this.password);
+};
 
 const RDoctor = new mongoose.model('doctor', doctorSchema);
 
