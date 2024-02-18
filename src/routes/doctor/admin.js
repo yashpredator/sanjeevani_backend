@@ -12,7 +12,7 @@ const {
     updateDoctorProfile
  } =require( '../../controllers/doctor/admin.js');
 // import { protect } from '../middleware/authMiddleare.js';
-const protect=require("../../middleware/authDoc.js")
+const {protect,safety}=require("../../middleware/authDoc.js")
 
 router.post('/doctor/register',registerDoctor);
 router.post('/doctor/login', authDoctor);
@@ -20,7 +20,7 @@ router.post('/doctor/login', authDoctor);
 router.post('/doctor/logout', logoutDoctor);
 
 router.route('/doctor/profile')
-    .get(protect,getDoctorProfile)
+    .get(safety,getDoctorProfile)
     .put(protect,updateDoctorProfile);
 
 module.exports=router;
