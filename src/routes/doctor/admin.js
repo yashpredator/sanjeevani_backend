@@ -6,15 +6,16 @@ const user=require("../../controllers/doctor/admin.js");
 const router = express.Router();
 const { 
     authDoctor,
-    registerDoctor,
+    signup,
     logoutDoctor,
     getDoctorProfile,
     updateDoctorProfile
  } =require( '../../controllers/doctor/admin.js');
+
 // import { protect } from '../middleware/authMiddleare.js';
 const {protect,safety}=require("../../middleware/authDoc.js")
 
-router.post('/doctor/register',registerDoctor);
+router.post('/doctor/signup',signup);
 router.post('/doctor/login', authDoctor);
 // router.post('/register',registerUser);
 router.post('/doctor/logout', logoutDoctor);

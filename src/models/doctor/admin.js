@@ -10,14 +10,14 @@ const reviewSchema = new Schema({
 });
 
 const doctorSchema = new Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: false, default:"" },
   username:{type:String, required:true, unique:true},
-  experience: { type: Number, required: true },
-  workplace: { type: String, required: true },
+  experience: { type: Number, required: false, default:"" },
+  workplace: { type: String, required: false, default:"" },
   doctor: { type: Boolean, required: true, default: true },
   email: { type: String, required: true, unique: true, validate(value){if(!validator.isEmail(value)){throw new Error("Invalid Email address")}} },
   password: { type: String, required: true },
-  specialization: { type: String, required: true },
+  specialization: { type: String, required: false, default:"" },
   reviews: [reviewSchema]
 });
 
