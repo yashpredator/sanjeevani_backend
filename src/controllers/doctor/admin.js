@@ -95,4 +95,33 @@ const updateDoctorProfile = asyncHandler(async(req,res)=>{
     }
 })
 
-module.exports={authDoctor,logoutDoctor,getDoctorProfile,updateDoctorProfile, signup}
+const getProfile = asyncHandler(async (req, res)=>{
+  try {
+    const {doctorId} = req.body; // Assuming doctorId is passed as a parameter in the route
+  
+    // Find the doctor by id
+    const doctor = await Review.findOne({ doctorId: doctorId });
+  
+    if (doctor) {
+      // If doctor exists, return the first 10 reviews
+      const firstTenReviews = doctor.patients.slice(0, 10);
+  
+      res.status(200).json({ success: true, reviews: firstTenReviews });
+    } else {
+      res.status(404).json({ success: false, message: "Doctor not found." });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Failed to get reviews.", error });
+  }
+})
+
+const getAppointmentD = asyncHandler(async (req, res)=>{
+
+})
+
+const getDoctors = asyncHandler(async (req, res)=>{
+
+})
+
+module.exports={authDoctor,logoutDoctor,getDoctorProfile,updateDoctorProfile, signup, getProfile, getAppointmentD, getDoctors}

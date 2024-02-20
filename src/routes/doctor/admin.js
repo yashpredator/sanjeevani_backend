@@ -19,9 +19,11 @@ router.post('/doctor/signup',signup);
 router.post('/doctor/login', authDoctor);
 // router.post('/register',registerUser);
 router.post('/doctor/logout', logoutDoctor);
+router.get('/doctor', user.getDoctors)
 
 router.route('/doctor/profile')
     .get(safety,getDoctorProfile)
     .put(protect,updateDoctorProfile);
 
+// router.route('/doctor/')
 module.exports=router;
