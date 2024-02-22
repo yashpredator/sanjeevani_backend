@@ -23,12 +23,13 @@ router.post('/login', authUser);
 router.post('/logout', logoutUser);
 router.post('/book',safety,addPatientToDoctor);
 router.post('/review',safety,user.reviewProfile);
-router.get('/book',safety,user.getAppointmentP);
-router.get('/review',safety,getProfile);
+
+router.get('/book',user.getAppointmentP); //It is defined
+router.get('/review',getProfile); //It is defined 
 // router.get('/doc)
 
 router.route('/profile')
     .get(safety,getUserProfile)
-    .put(protect,updateUserProfile);
+    .put(safety,updateUserProfile);
 
 module.exports=router;

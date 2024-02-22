@@ -70,29 +70,18 @@ const getDoctorProfile = asyncHandler(async(req,res)=>{
 });
 
 const updateDoctorProfile = asyncHandler(async(req,res)=>{
-    const {username}=req.body
-
-    try{
-        const user = await Doctor.findOne({username});
-        if (user) {
-            user.username = req.body.username || user.username;
-            user.email = req.body.email || user.email;
-        
-            if (req.body.password) {
-              user.password = req.body.password;
-            }
-        
-            const updatedUser = await user.save();
-        
-            res.json({
-              _id: updatedUser._id,
-              username: updatedUser.username,
-              email: updatedUser.email,
-            });
-        } 
-    }catch(err){
-        res.status(404).json({error:err.message});
+  const updates = req.body;
+  const userData = req.user;
+  const doctorId = userData.username;
+  try {
+    const updatedDoctor = await Doctor.findOneAndUpdate({ _id: doctorId }, updates, { new: true });
+    if (!updatedDoctor) {
+      return res.status(404).json({ message: "Doctor not found" });
     }
+    res.status(200).json(updatedDoctor);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 })
 
 const getProfile = asyncHandler(async (req, res)=>{
@@ -117,11 +106,26 @@ const getProfile = asyncHandler(async (req, res)=>{
 })
 
 const getAppointmentD = asyncHandler(async (req, res)=>{
+  const doctorId = req.doctorId; // Assuming you'll pass doctorId as a URL parameter
 
+  try {
+    const doctor = await Appointment.findOne({ doctor: doctorId });
+    if (!doctor) {
+      return res.status(404).json({ message: "Doctor not found" });
+    }
+    res.status(200).json(doctor.appointments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 })
 
 const getDoctors = asyncHandler(async (req, res)=>{
-
+  try {
+    const doctors = await Doctor.find();
+    res.status(200).json(doctors);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 })
 
 module.exports={authDoctor,logoutDoctor,getDoctorProfile,updateDoctorProfile, signup, getProfile, getAppointmentD, getDoctors}

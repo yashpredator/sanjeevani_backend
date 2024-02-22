@@ -74,28 +74,17 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const { email } = req.body;
-
+  const updates = req.body;
+  const userData = req.user;
+  const patientId = userData.username;
   try {
-    const user = await User.findOne({ email });
-    if (user) {
-      user.username = req.body.username || user.username;
-      user.email = req.body.email || user.email;
-
-      if (req.body.password) {
-        user.password = req.body.password;
-      }
-
-      const updatedUser = await user.save();
-
-      res.json({
-        _id: updatedUser._id,
-        username: updatedUser.username,
-        email: updatedUser.email,
-      });
+    const updatedPatient = await User.findOneAndUpdate({ _id: patientId }, updates, { new: true });
+    if (!updatedPatient) {
+      return res.status(404).json({ message: "Patient not found" });
     }
-  } catch (err) {
-    res.status(404).json({ error: err.message });
+    res.status(200).json(updatedPatient);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -209,7 +198,17 @@ const addPatientToDoctor = async (req, res) => {
 };
 
 const getAppointmentP = asyncHandler(async (req, res) => {
-  
+  const patientId = req.params.patientId; // Assuming you'll pass patientId as a URL parameter
+
+  try {
+    const patient = await AppointmentP.findOne({ patient: patientId });
+    if (!patient) {
+      return res.status(404).json({ message: "Patient not found" });
+    }
+    res.status(200).json(patient.appointments);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 module.exports = {
@@ -220,7 +219,7 @@ module.exports = {
   updateUserProfile,
   reviewProfile,
   addPatientToDoctor,
-  getAppointment,
+  getAppointmentP,
   reviewProfile,
   getAppointmentP
 };

@@ -19,11 +19,13 @@ router.post('/doctor/signup',signup);
 router.post('/doctor/login', authDoctor);
 // router.post('/register',registerUser);
 router.post('/doctor/logout', logoutDoctor);
-router.get('/doctor', user.getDoctors)
+
+router.get('/doctor', user.getDoctors) //It is defined
+router.get('/book',user.getAppointmentD); //It is defined
 
 router.route('/doctor/profile')
     .get(safety,getDoctorProfile)
-    .put(protect,updateDoctorProfile);
+    .put(safety,updateDoctorProfile);
 
 // router.route('/doctor/')
 module.exports=router;
