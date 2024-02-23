@@ -8,9 +8,9 @@ const patientSchema = new Schema({
   password: { type: String, required: true },
   doctor: { type: Boolean, required: true, default: false },
   name: { type: String, required: false, default:"" },
-  age: { type: Number, required: false,default:"" },
+  age: { type: Number, required: false,default:0 },
   address: { type: String, required: false,default:"" },
-  phone: { type: String, required: false,default:""},
+  phone: { type: String, required: false,default:"",unique:false},
   email: {
     type: String,
     required: true,

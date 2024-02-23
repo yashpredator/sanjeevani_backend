@@ -13,7 +13,7 @@ connectToDb((err)=>{
     if(!err) {
         app.listen(port,()=>{
             console.log('Listen to the port: '+ port);
-        })
+        }) 
         db = getDb()
     }
 })
@@ -24,9 +24,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(userRouter);
 app.use(doctorRouter);
-app.use(notFound);
-app.use(errorHandler);
+
 
 app.get('/',(req,res)=>{
     res.send('This is the home page');
 });
+app.use(notFound);
+app.use(errorHandler);

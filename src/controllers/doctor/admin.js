@@ -4,6 +4,7 @@
 const asyncHandler=require("express-async-handler")
 const Doctor=require("../../models/doctor/admin.js")
 const generateToken=require("../../utils/generateToken.js")
+const Review=require("../../models/connection/reviews.js")
 const bcrypt=require("bcrypt")
 
 const authDoctor = asyncHandler(async (req,res)=>{
@@ -127,5 +128,16 @@ const getDoctors = asyncHandler(async (req, res)=>{
     res.status(500).json({ message: error.message });
   }
 })
+const getOneDoc= asyncHandler(async (req,res)=>{
+  try{
+    const doc=await Doctor.findOne(req.username)
+    if(doc) res.status(200).json(doc);
+    else res.status(404).json({message:"Doctor not found"})
+  }
+  catch(err){
+    res.status(500).json({ message: error.message });
+  }
+})
 
-module.exports={authDoctor,logoutDoctor,getDoctorProfile,updateDoctorProfile, signup, getProfile, getAppointmentD, getDoctors}
+
+module.exports={authDoctor,logoutDoctor,getDoctorProfile,updateDoctorProfile, signup, getProfile, getAppointmentD, getDoctors,getOneDoc}
